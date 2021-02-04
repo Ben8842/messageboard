@@ -1,5 +1,5 @@
 const Mongoose = require("mongoose");
-
+Mongoose.set("useFindAndModify", false);
 const uri = "mongodb://127.0.0.1:27017/server";
 const urinew = process.env.MONGODB_URI;
 

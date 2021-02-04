@@ -1,53 +1,48 @@
 const express = require("express");
-const path = require("path");
-
-const { getMaxListeners } = require("./models/user");
-const user = require("./models/user");
-//const cors = require("cors");
+const cors = require("cors");
+const app = express();
 const corsOptions = {
   origin: "http://localhost:3000",
   optionsSuccessStatus: 200,
 };
+app.use(cors(corsOptions));
 
-const app = express();
+const path = require("path");
+
+const { getMaxListeners } = require("./models/user");
+const user = require("./models/user");
+
 app.use(express.json());
+//mongoose.set("useFindAndModify", false);
 
 //example
 app.post("/users", (req, res) => {
   console.log("posting");
-  console.log(req.body.email);
+  console.log(req.body);
   const body = req.body;
   const userObject = new user(body);
-  user.findOne(
-    {
-      email: req.body.email,
-    },
-    (error, data) => {
-      if (error) {
-        console.log(error);
-        return res.status(500).send("Server Error during finding");
-      } else if (data == null) {
-        console.log("null!" + data);
-        userObject.save(function (error) {
-          console.log("done.");
-          console.log(error);
-          if (error) {
-            console.log("issues here:" + error);
-            return res.status(500).send("Server Error while saving");
-          } else {
-            return res.status(201).send("user saved");
-          }
-          return;
-        });
 
-        //res.json(data);
-      } else if (data != null) {
-        console.log("not null!" + data);
-        console.log("duplicate !! (email)");
-        return res.status(400).send("duplicate email record");
-      }
+  user.findOneAndUpdate(
+    { name: "theName" },
+    {
+      $push: { movieNames: req.body.movieName },
+    },
+
+    (error, data) => {
+      console.log(req.body.movieName);
+      console.log(error + "hi");
+      return res.status(400).send("push complete i think");
     }
   );
+  /*
+  userObject.save(function (error) {
+    console.log("saving");
+    if (error) {
+      console.log(error + "issue");
+    } else {
+      return res.status(201).send("addition complete");
+    }
+  });*/
 });
 
 //end of example

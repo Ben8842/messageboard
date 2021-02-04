@@ -9,6 +9,7 @@ class MovieForm extends React.Component {
       movieName: "",
       count: 0,
       method: "",
+      overName: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -16,7 +17,7 @@ class MovieForm extends React.Component {
   }
 
   handleChange = (event) => {
-    const { movieName, method } = this.state;
+    const { movieName, method, overName } = this.state;
     let name = event.target.name;
     let value = event.target.value;
     console.log(name);
@@ -27,9 +28,9 @@ class MovieForm extends React.Component {
   handleSubmit(event) {
     alert("submission incoming" + this.state.movieName);
     event.preventDefault();
-    const { movieName, method } = this.state;
+    const { movieName, method, overName } = this.state;
 
-    fetch("/users", {
+    fetch("http://localhost:5000/users", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -38,9 +39,9 @@ class MovieForm extends React.Component {
         "Content-Type": "application/json",
       },
       referrerPolicy: "no-referrer",
-      body: JSON.stringify({ movieName, method }),
+      body: JSON.stringify({ movieName, method, overName }),
     }).then((res) => {
-      console.log("something happening here");
+      console.log("something happening here" + res);
     });
   }
 
@@ -57,6 +58,8 @@ class MovieForm extends React.Component {
         <p>Enter the watching method. </p>
         <input type="text" name="method" onChange={this.handleChange} />
         <h3>The watching method is {this.state.method}</h3>
+        <input type="text" name="overName" onChange={this.handleChange} />
+        <h4>your Over Name is going to be {this.state.overName}</h4>
       </form>
     );
   }
