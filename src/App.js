@@ -42,6 +42,10 @@ class MovieForm extends React.Component {
       });
   }
 
+  clickRemover = (index) => {
+    console.log("remove now!");
+  };
+
   clickHandler = () => {
     console.log("component did mount woo hoo");
     this.getMovieList();
@@ -90,7 +94,16 @@ class MovieForm extends React.Component {
       <div>
         <p>so many things are in the database</p>
         {newA.map((item, index) => (
-          <p key={index}>{newA[index]}</p>
+          <ul>
+            <li key={index}>
+              <span key={index}>
+                {newA[index]} <span> </span>
+                <button type="button" id="X" onClick={this.clickRemover(index)}>
+                  X
+                </button>
+              </span>
+            </li>
+          </ul>
         ))}
       </div>
     );
