@@ -29,20 +29,27 @@ app.post("/users", (req, res) => {
     },
 
     (error, data) => {
-      console.log(req.body.movieName);
+      console.log(req.body.movieNames);
       console.log(error + "hi");
-      return res.status(400).send("push complete i think");
+      return res.json();
     }
   );
-  /*
-  userObject.save(function (error) {
-    console.log("saving");
-    if (error) {
-      console.log(error + "issue");
-    } else {
-      return res.status(201).send("addition complete");
+});
+
+app.get("/users", (req, res) => {
+  console.log("GETTING");
+  console.log(req.body);
+  const body = req.body;
+  const userObject = new user(body);
+
+  user.find(
+    { name: "theName" },
+
+    (error, data) => {
+      console.log(JSON.stringify(data) + "stringify");
+      return res.json(data);
     }
-  });*/
+  );
 });
 
 //end of example
