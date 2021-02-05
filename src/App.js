@@ -117,7 +117,7 @@ class MovieForm extends React.Component {
     console.log("reallyOK???");
     const superDBdisplay = (
       <div>
-        <p>so many things are in the database</p>
+        <p>Movie list is here below</p>
         {newA.map((item, index) => (
           <ul>
             <li key={index}>
@@ -137,7 +137,20 @@ class MovieForm extends React.Component {
         ))}
       </div>
     );
-
+    /*
+    const unusedIdeas = (
+      <div>
+      <p>Enter the watching method. </p>
+        <input type="text" name="method" onChange={this.handleChange} />
+        <h3>The watching method is {this.state.method}</h3>
+        <input type="text" name="overName" onChange={this.handleChange} />
+        <h4>your Over Name is going to be {this.state.overName}</h4>
+        <button type="button" onClick={this.clickHandler}>
+          get this going
+        </button>
+      </div>
+    );
+*/
     return (
       <form id="marginy">
         <h1> The movie name is {this.state.movieName}</h1>
@@ -147,14 +160,6 @@ class MovieForm extends React.Component {
           submit
         </button>
 
-        <p>Enter the watching method. </p>
-        <input type="text" name="method" onChange={this.handleChange} />
-        <h3>The watching method is {this.state.method}</h3>
-        <input type="text" name="overName" onChange={this.handleChange} />
-        <h4>your Over Name is going to be {this.state.overName}</h4>
-        <button type="button" onClick={this.clickHandler}>
-          get this going
-        </button>
         {superDBdisplay}
       </form>
     );
