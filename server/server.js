@@ -1,3 +1,4 @@
+//installation advice at bottom of file
 const express = require("express");
 const cors = require("cors");
 const app = express();
@@ -16,6 +17,8 @@ app.use(express.json());
 //mongoose.set("useFindAndModify", false);
 
 //example
+//below here app.post("/users" is associated with the name of your db collection
+//the db name is associated with the uri in the db.js file
 app.post("/users", (req, res) => {
   console.log("posting");
   console.log(req.body);
@@ -78,3 +81,42 @@ const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log("Hello Server Running on " + port);
 });
+
+/* installation steps for creating new database (with mongodb and mongoose and express and node.js)
+these steps are in order to run a new database locally.  structure should have react folder directory with a server directory inside that react folder
+
+(install these below in the server directory (not the react application directory))
+npm install express --save
+
+npm install mongoose --save
+
+
+
+switch uriold and uri old variables
+
+compass create database.  give name as folder name (perhaps server in this case if folder is named server)
+give name to collection that is associated with app.post or app.get calls ("/users?, (req, res) => { 
+so in this case it should be users .....
+
+
+readme usually has # with name of folder in it, not sure why . . . 
+
+
+npm install cors--save
+
+
+INSIDE THE SERVER.JS near top . . . 
+const express = require("express");
+const cors = require("cors");
+const app = express();
+const corsOptions = {
+  origin: "http://localhost:3000",
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
+
+then you need to 
+INSIDE db.js file near top
+Mongoose.set("useFindAndModify", false);
+
+*/

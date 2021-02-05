@@ -1,6 +1,8 @@
 const Mongoose = require("mongoose");
 Mongoose.set("useFindAndModify", false);
-const uri = "mongodb://127.0.0.1:27017/server";
+//on server.js file the  app.post("/users" is associated with the name of your db collection
+//the db name is associated with the uri (/messages for example) in the db.js file (this file)
+const uri = "mongodb://127.0.0.1:27017/messages";
 const urinew = process.env.MONGODB_URI;
 
 Mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
