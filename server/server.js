@@ -21,7 +21,7 @@ app.post("/users", (req, res) => {
   console.log(req.body);
   const body = req.body;
   const userObject = new user(body);
-  if (body.name == "theName") {
+  if (body.overName == "theName") {
     user.findOneAndUpdate(
       { name: "theName" },
       {
@@ -29,7 +29,7 @@ app.post("/users", (req, res) => {
       },
 
       (error, data) => {
-        console.log(req.body.movieNames);
+        console.log(req.body.movieName);
         console.log(error + "hi");
         return res.json();
       }

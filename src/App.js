@@ -10,7 +10,7 @@ class MovieForm extends React.Component {
       movieName: "",
       count: 0,
       method: "",
-      overName: "",
+      overName: "theName",
       dbcontainer: [],
       newA: [],
       showButtonIndex: 0,
@@ -18,6 +18,7 @@ class MovieForm extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.clickHandler();
   }
 
   getMovieList() {
@@ -86,9 +87,10 @@ class MovieForm extends React.Component {
   };
 
   handleSubmit(event) {
-    alert("submission incoming" + this.state.movieName);
+    //alert("submission incoming" + this.state.movieName);
     event.preventDefault();
     const { movieName, method, overName } = this.state;
+    console.log("body is" + { movieName } + { method } + { overName });
 
     fetch("http://localhost:5000/users", {
       method: "POST",
@@ -103,6 +105,7 @@ class MovieForm extends React.Component {
     }).then((res) => {
       console.log("something happening here" + res);
     });
+    this.clickHandler();
   }
 
   render() {
