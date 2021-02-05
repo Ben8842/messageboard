@@ -13,6 +13,7 @@ class MovieForm extends React.Component {
       overName: "",
       dbcontainer: [],
       newA: [],
+      showButtonIndex: 0,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -42,8 +43,29 @@ class MovieForm extends React.Component {
       });
   }
 
-  clickRemover = (index) => {
+  clickRemover = (e) => {
+    var { dbcontainer, newA, showButtonIndex } = this.state;
+    this.setState({
+      showButtonIndex: e.target.id,
+    });
+    var holder = newA[e.target.id];
+    console.log(JSON.stringify({ holder, showButtonIndex }));
     console.log("remove now!");
+    fetch("http://localhost:5000/users", {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({ holder, showButtonIndex }),
+    }).then((res) => {
+      console.log("something happening here" + res);
+    });
+
+    this.clickHandler();
   };
 
   clickHandler = () => {
@@ -98,7 +120,12 @@ class MovieForm extends React.Component {
             <li key={index}>
               <span key={index}>
                 {newA[index]} <span> </span>
-                <button type="button" id="X" onClick={this.clickRemover(index)}>
+                <button
+                  type="button"
+                  id={index}
+                  key={index}
+                  onClick={(e) => this.clickRemover(e)}
+                >
                   X
                 </button>
               </span>

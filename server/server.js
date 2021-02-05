@@ -21,19 +21,33 @@ app.post("/users", (req, res) => {
   console.log(req.body);
   const body = req.body;
   const userObject = new user(body);
+  if (body.name == "theName") {
+    user.findOneAndUpdate(
+      { name: "theName" },
+      {
+        $push: { movieNames: req.body.movieName },
+      },
 
-  user.findOneAndUpdate(
-    { name: "theName" },
-    {
-      $push: { movieNames: req.body.movieName },
-    },
+      (error, data) => {
+        console.log(req.body.movieNames);
+        console.log(error + "hi");
+        return res.json();
+      }
+    );
+  } else {
+    user.findOneAndUpdate(
+      { name: "theName" },
+      {
+        $pull: { movieNames: body.holder },
+      },
 
-    (error, data) => {
-      console.log(req.body.movieNames);
-      console.log(error + "hi");
-      return res.json();
-    }
-  );
+      (error, data) => {
+        console.log(req.body.movieNames);
+        console.log(error + "hi");
+        return res.json();
+      }
+    );
+  }
 });
 
 app.get("/users", (req, res) => {
