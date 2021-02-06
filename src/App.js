@@ -132,6 +132,8 @@ class MovieForm extends React.Component {
                 >
                   X
                 </button>
+                <button>upvote</button>
+                <button>downvote</button>
               </span>
             </li>
           </ul>
