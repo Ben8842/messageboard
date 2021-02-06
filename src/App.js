@@ -117,15 +117,15 @@ class MovieForm extends React.Component {
     console.log("reallyOK???");
     const superDBdisplay = (
       <div>
-        <p>Movie list is here below</p>
+        <p>The Wall of Messages begins here!</p>
         {newA.map((item, index) => (
           <ul>
             <li key={index}>
               <span key={index}>
-                {newA[index]} <span> </span>
+                {newA[newA.length - index - 1]} <span> </span>
                 <button
                   type="button"
-                  id={index}
+                  id={newA.length - index - 1}
                   key={index}
                   onClick={(e) => this.clickRemover(e)}
                 >
@@ -148,14 +148,21 @@ class MovieForm extends React.Component {
         <button type="button" onClick={this.clickHandler}>
           get this going
         </button>
+         <h1> {this.state.movieName}</h1>
       </div>
     );
 */
     return (
       <form id="marginy">
-        <h1> The movie name is {this.state.movieName}</h1>
-        <p>Enter a movie name below.</p>
-        <input type="text" name="movieName" onChange={this.handleChange} />
+        <p>Wall of messages</p>
+        <textarea
+          rows="5"
+          cols="40"
+          type="text"
+          placeholder="enter a message for the wall"
+          name="movieName"
+          onChange={this.handleChange}
+        />
         <button type="button" name="submit" onClick={this.handleSubmit}>
           submit
         </button>

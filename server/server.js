@@ -45,7 +45,7 @@ app.post("/users", (req, res) => {
       },
 
       (error, data) => {
-        console.log(req.body.movieNames);
+        console.log(req.body.movieName);
         console.log(error + "hi");
         return res.json();
       }
