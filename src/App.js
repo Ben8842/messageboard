@@ -14,6 +14,7 @@ class MovieForm extends React.Component {
       dbcontainer: [],
       newA: [],
       showButtonIndex: 0,
+      chars_left: 400,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -83,7 +84,7 @@ class MovieForm extends React.Component {
     let value = event.target.value;
     console.log(name);
     console.log(value);
-    this.setState({ [name]: value });
+    this.setState({ [name]: value, chars_left: 400 - value.length });
   };
 
   handleSubmit(event) {
@@ -109,7 +110,7 @@ class MovieForm extends React.Component {
   }
 
   render() {
-    var { dbcontainer, newA } = this.state;
+    var { dbcontainer, newA, chars_left } = this.state;
     console.log(dbcontainer[0]);
 
     console.log("OK???");
@@ -156,6 +157,7 @@ class MovieForm extends React.Component {
       <form id="marginy">
         <p>Wall of messages</p>
         <textarea
+          maxlength="400"
           rows="5"
           cols="40"
           type="text"
@@ -164,7 +166,7 @@ class MovieForm extends React.Component {
           onChange={this.handleChange}
         />
         <button type="button" name="submit" onClick={this.handleSubmit}>
-          submit
+          submit {chars_left}
         </button>
 
         {superDBdisplay}
