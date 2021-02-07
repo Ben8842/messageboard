@@ -17,6 +17,7 @@ class MovieForm extends React.Component {
       chars_left: 400,
       datePush: "",
       newADater: [],
+      text: "",
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -172,18 +173,26 @@ class MovieForm extends React.Component {
 */
     return (
       <form id="marginy">
-        <h1>Wall of messages</h1>
+        <h1>Message Board</h1>
+        {chars_left}
         <textarea
+          id="fancy"
+          autofocus="true"
           maxlength="400"
           rows="5"
           cols="40"
           type="text"
-          placeholder="enter a message for the wall"
+          placeholder="enter a message for the Message Board"
           name="movieName"
           onChange={this.handleChange}
         />
-        <button type="button" name="submit" onClick={this.handleSubmit}>
-          submit {chars_left}
+        <button
+          type="button"
+          class="buttontools"
+          name="submit"
+          onClick={this.handleSubmit}
+        >
+          submit
         </button>
 
         {superDBdisplay}
