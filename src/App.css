@@ -39,6 +39,10 @@
   border: solid;
 }
 
+.authy {
+  text-align: right;
+}
+
 .buttontools {
   border-radius: 30px;
   border: solid;

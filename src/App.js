@@ -173,6 +173,10 @@ class MovieForm extends React.Component {
 */
     return (
       <form id="marginy">
+        <div class="authy">
+          <button class="buttontools">log in</button>
+          <button class="buttontools">sign up</button>
+        </div>
         <h1>Message Board</h1>
         {chars_left}
         <textarea
