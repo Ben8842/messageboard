@@ -6,6 +6,7 @@ const user = new schema(
     movieNames: [String],
     methods: [String],
     name: String,
+    storeTimestamps: [String],
   },
   { timestamps: true }
 );
