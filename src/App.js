@@ -15,6 +15,8 @@ class MovieForm extends React.Component {
       newA: [],
       showButtonIndex: 0,
       chars_left: 400,
+      datePush: "",
+      newADater: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -23,7 +25,7 @@ class MovieForm extends React.Component {
   }
 
   getMovieList() {
-    var { dbcontainer, newA } = this.state;
+    var { dbcontainer, newA, datePush, newADater } = this.state;
     fetch("http://localhost:5000/users", {
       method: "GET",
       mode: "cors",
@@ -39,18 +41,24 @@ class MovieForm extends React.Component {
         return res.json();
       })
       .then((data) => {
-        this.setState({ dbcontainer: data, newA: data[0].movieNames });
+        this.setState((prevState) => ({
+          newADater: [...prevState.newADater, data[0].updatedAt],
+          dbcontainer: data,
+          newA: data[0].movieNames,
+        }));
+
         console.log(data);
         console.log("getData data data");
       });
   }
 
   clickRemover = (e) => {
-    var { dbcontainer, newA, showButtonIndex } = this.state;
+    var { dbcontainer, newA, showButtonIndex, newADater } = this.state;
     this.setState({
       showButtonIndex: e.target.id,
     });
     var holder = newA[e.target.id];
+    var timeholder = newADater[e.target.id];
     console.log(JSON.stringify({ holder, showButtonIndex }));
     console.log("remove now!");
     fetch("http://localhost:5000/users", {
@@ -62,7 +70,7 @@ class MovieForm extends React.Component {
         "Content-Type": "application/json",
       },
       referrerPolicy: "no-referrer",
-      body: JSON.stringify({ holder, showButtonIndex }),
+      body: JSON.stringify({ holder, showButtonIndex, timeholder }),
     }).then((res) => {
       console.log("something happening here" + res);
     });
@@ -110,7 +118,7 @@ class MovieForm extends React.Component {
   }
 
   render() {
-    var { dbcontainer, newA, chars_left } = this.state;
+    var { dbcontainer, newA, chars_left, newADater } = this.state;
     console.log(dbcontainer[0]);
 
     console.log("OK???");
@@ -120,23 +128,30 @@ class MovieForm extends React.Component {
       <div>
         <p>The Wall of Messages begins here!</p>
         {newA.map((item, index) => (
-          <ul>
-            <li key={index}>
+          <div>
+            <div id="messagetime" key={index}>
               <span key={index}>
-                {newA[newA.length - index - 1]} <span> </span>
-                <button
-                  type="button"
-                  id={newA.length - index - 1}
-                  key={index}
-                  onClick={(e) => this.clickRemover(e)}
-                >
-                  X
-                </button>
-                <button>upvote</button>
-                <button>downvote</button>
+                {newA[newA.length - index - 1]}{" "}
+                <div>
+                  <span id="timestamp">
+                    Timestamp: {newADater[newA.length - index - 1]}
+                  </span>
+
+                  <button
+                    type="button"
+                    id={newA.length - index - 1}
+                    key={index}
+                    class="buttontools"
+                    onClick={(e) => this.clickRemover(e)}
+                  >
+                    delete
+                  </button>
+                  <button class="buttontools">upvote</button>
+                  <button class="buttontools">downvote</button>
+                </div>
               </span>
-            </li>
-          </ul>
+            </div>
+          </div>
         ))}
       </div>
     );
@@ -157,7 +172,7 @@ class MovieForm extends React.Component {
 */
     return (
       <form id="marginy">
-        <p>Wall of messages</p>
+        <h1>Wall of messages</h1>
         <textarea
           maxlength="400"
           rows="5"

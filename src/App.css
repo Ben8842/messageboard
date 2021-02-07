@@ -18,6 +18,27 @@
   text-align: center;
 }
 
+#messagetime {
+  border-radius: 30px;
+  border: solid;
+  background-color: lightgrey;
+  color: black;
+  border-width: 5px;
+  font-size: 20px;
+}
+
+#timestamp {
+  font-size: 10px;
+}
+
+.buttontools {
+  border-radius: 30px;
+  border: solid;
+  background-color: lightblue;
+  color: black;
+  border-width: 2px;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
