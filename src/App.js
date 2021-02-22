@@ -1,6 +1,7 @@
 import logo from "./logo.svg";
 import "./App.css";
 import React from "react";
+import GoogleLogin from "react-google-login";
 
 class MovieForm extends React.Component {
   constructor(props) {
@@ -18,11 +19,22 @@ class MovieForm extends React.Component {
       datePush: "",
       newADater: [],
       text: "",
+      authStep: 0,
+      verifyAuth: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.clickHandler();
+  }
+
+  loginClick() {
+    this.setState((state) => ({ authStep: 2 }));
+  }
+
+  signupClick() {
+    this.setState((state) => ({ authStep: 3 }));
+    console.log(this.state.authStep);
   }
 
   getMovieList() {
@@ -119,7 +131,14 @@ class MovieForm extends React.Component {
   }
 
   render() {
-    var { dbcontainer, newA, chars_left, newADater } = this.state;
+    var {
+      dbcontainer,
+      newA,
+      chars_left,
+      newADater,
+      authStep,
+      verifyAuth,
+    } = this.state;
     console.log(dbcontainer[0]);
 
     console.log("OK???");
@@ -171,12 +190,75 @@ class MovieForm extends React.Component {
       </div>
     );
 */
+    const authStepOne = (
+      <div class="authy">
+        <button
+          class="buttontools"
+          type="button"
+          onClick={this.loginClick.bind(this)}
+        >
+          log in
+        </button>
+        <button
+          class="buttontools"
+          type="button"
+          onClick={this.signupClick.bind(this)}
+        >
+          sign up
+        </button>
+      </div>
+    );
+
+    const authStepTwo = (
+      <div class="authy">
+        <form>
+          Log in here ...
+          <input class="buttontools" value="email" />
+          <input class="buttontools" value="password" />
+          <button
+            type="button"
+            class="buttontools"
+            name="submit"
+            onClick={null}
+          >
+            submit
+          </button>
+        </form>
+      </div>
+    );
+
+    const authStepThree = (
+      <div class="authy">
+        <form>
+          Sign up here ...
+          <input class="buttontools" value="email" />
+          <input class="buttontools" value="password" />
+          <button
+            type="button"
+            class="buttontools"
+            name="submit"
+            onClick={null}
+          >
+            submit
+          </button>
+        </form>
+      </div>
+    );
+
+    const authStepFour = (
+      <div class="authy">
+        <button type="button" class="buttontools" name="submit" onClick={null}>
+          Currently logged in as XXX; Click here to Log out.
+        </button>
+      </div>
+    );
+
     return (
       <form id="marginy">
-        <div class="authy">
-          <button class="buttontools">log in</button>
-          <button class="buttontools">sign up</button>
-        </div>
+        {authStep == 0 ? authStepOne : null}
+        {authStep == 2 ? authStepTwo : null}
+        {authStep == 3 ? authStepThree : null}
+        {verifyAuth ? authStepFour : null}
         <h1>Message Board</h1>
         {chars_left}
         <textarea
