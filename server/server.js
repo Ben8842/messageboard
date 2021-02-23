@@ -11,11 +11,18 @@ app.use(cors(corsOptions));
 const path = require("path");
 
 const { getMaxListeners } = require("./models/user");
+const message = require("./models/message");
 const user = require("./models/user");
 
 app.use(express.json());
 //mongoose.set("useFindAndModify", false);
-
+app.post("/messages", (req, res) => {
+  console.log("posting messages");
+  const body = req.body;
+  const messageObject = new message(body);
+  console.log(body);
+  messageObject.save();
+});
 //example
 //below here app.post("/users" is associated with the name of your db collection
 //the db name is associated with the uri in the db.js file
@@ -51,6 +58,35 @@ app.post("/users", (req, res) => {
       }
     );
   }
+});
+
+app.get("/messages", (req, res) => {
+  console.log("GETTING MESSAGE");
+
+  message
+    .find(
+      {},
+
+      (error, data) => {
+        console.log(JSON.stringify(data) + "stringify");
+        return res.json(data);
+      }
+    )
+    .sort("-createdAt");
+});
+
+app.delete("/messages/:id", (req, res) => {
+  console.log("we are deleting", req.params);
+  // message.findOneAndDelete({ _id: req.params.id });
+  message.findByIdAndDelete(req.params.id, function (error) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("delete is a success");
+    }
+  });
+  // message.deleteOne({ _id: "ObjectId(" + req.params.id + ")" });
+  res.send("delete message here");
 });
 
 app.get("/users", (req, res) => {

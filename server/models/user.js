@@ -3,7 +3,7 @@ const schema = mongoose.Schema;
 //mongoose.set("useFindAndModify", false);
 const user = new schema(
   {
-    message: [String]
+    message: [String],
     movieNames: [String],
     methods: [String],
     name: String,

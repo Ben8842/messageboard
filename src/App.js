@@ -21,11 +21,13 @@ class MovieForm extends React.Component {
       text: "",
       authStep: 0,
       verifyAuth: false,
+      messageholder: [],
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.clickHandler();
+    this.getMovieList();
   }
 
   loginClick() {
@@ -39,7 +41,7 @@ class MovieForm extends React.Component {
 
   getMovieList() {
     var { dbcontainer, newA, datePush, newADater } = this.state;
-    fetch("http://localhost:5000/users", {
+    fetch("http://localhost:5000/messages", {
       method: "GET",
       mode: "cors",
       cache: "no-cache",
@@ -54,11 +56,9 @@ class MovieForm extends React.Component {
         return res.json();
       })
       .then((data) => {
-        this.setState((prevState) => ({
-          newADater: [...prevState.newADater, data[0].updatedAt],
-          dbcontainer: data,
-          newA: data[0].movieNames,
-        }));
+        this.setState({
+          messageholder: data,
+        });
 
         console.log(data);
         console.log("getData data data");
@@ -74,8 +74,8 @@ class MovieForm extends React.Component {
     var timeholder = newADater[e.target.id];
     console.log(JSON.stringify({ holder, showButtonIndex }));
     console.log("remove now!");
-    fetch("http://localhost:5000/users", {
-      method: "POST",
+    fetch("http://localhost:5000/messages/" + e.target.id, {
+      method: "DELETE",
       mode: "cors",
       cache: "no-cache",
       credentials: "same-origin",
@@ -114,7 +114,7 @@ class MovieForm extends React.Component {
     const { movieName, method, overName } = this.state;
     console.log("body is" + { movieName } + { method } + { overName });
 
-    fetch("http://localhost:5000/users", {
+    fetch("http://localhost:5000/messages", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -123,7 +123,7 @@ class MovieForm extends React.Component {
         "Content-Type": "application/json",
       },
       referrerPolicy: "no-referrer",
-      body: JSON.stringify({ movieName, method, overName }),
+      body: JSON.stringify({ text: movieName }),
     }).then((res) => {
       console.log("something happening here" + res);
     });
@@ -138,6 +138,7 @@ class MovieForm extends React.Component {
       newADater,
       authStep,
       verifyAuth,
+      messageholder,
     } = this.state;
     console.log(dbcontainer[0]);
 
@@ -147,19 +148,17 @@ class MovieForm extends React.Component {
     const superDBdisplay = (
       <div>
         <p>The Wall of Messages begins here!</p>
-        {newA.map((item, index) => (
+        {messageholder.map((item, index) => (
           <div>
             <div id="messagetime" key={index}>
               <span key={index}>
-                {newA[newA.length - index - 1]}{" "}
+                {item.text}
                 <div>
-                  <span id="timestamp">
-                    Timestamp: {newADater[newA.length - index - 1]}
-                  </span>
+                  <span id="timestamp">Timestamp: {item.createdAt}</span>
 
                   <button
                     type="button"
-                    id={newA.length - index - 1}
+                    id={item._id}
                     key={index}
                     class="buttontools"
                     onClick={(e) => this.clickRemover(e)}
