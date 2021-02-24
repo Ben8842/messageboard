@@ -22,12 +22,62 @@ class MovieForm extends React.Component {
       authStep: 0,
       verifyAuth: false,
       messageholder: [],
+      email: "",
+      password: "",
     };
 
+    this.handleChangeX = this.handleChangeX.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.clickHandler();
     this.getMovieList();
+  }
+
+  handleChangeX(event) {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  submitSignUp() {
+    console.log("submit Sign Up now");
+    const { email, password } = this.state;
+    console.log(JSON.stringify({ email, password }));
+    fetch("http://localhost:5000/userprofiles", {
+      method: "POST",
+      mode: "cors", // no-cors, *cors, same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify({ email, password }),
+      // body data type must match "Content-Type" header
+    })
+      .then((res) => {
+        console.log("trigger");
+        if (res.status === 400) {
+          return res.text();
+        }
+        //if (res.status === 201) {
+        else {
+          return;
+        }
+      })
+      .then((data) => {
+        if (typeof data === "string") {
+          console.log("duplicate user detected");
+          // this.props.createModalError(data);
+        }
+        //if (typeof data === "object") {
+        else {
+          console.log("new user saved!");
+          this.setState({ successfulSave: true });
+          //  this.closeModal();
+        }
+      });
   }
 
   loginClick() {
@@ -140,11 +190,13 @@ class MovieForm extends React.Component {
       verifyAuth,
       messageholder,
     } = this.state;
-    console.log(dbcontainer[0]);
+    // console.log(dbcontainer[0]);
+    console.log(this.state.email);
+    console.log(this.state.passowrd);
 
-    console.log("OK???");
-    console.log(newA);
-    console.log("reallyOK???");
+    // console.log("OK???");
+    // console.log(newA);
+    //  console.log("reallyOK???");
     const superDBdisplay = (
       <div>
         <p>The Wall of Messages begins here!</p>
@@ -230,13 +282,27 @@ class MovieForm extends React.Component {
       <div class="authy">
         <form>
           Sign up here ...
-          <input class="buttontools" value="email" />
-          <input class="buttontools" value="password" />
+          <input
+            class="buttontools"
+            name="email"
+            placeholder="EMAIL"
+            type="text"
+            value={this.state.email}
+            onChange={this.handleChangeX}
+          />
+          <input
+            class="buttontools"
+            name="password"
+            placeholder="PASSWORD"
+            type="text"
+            value={this.state.password}
+            onChange={this.handleChangeX}
+          />
           <button
             type="button"
             class="buttontools"
             name="submit"
-            onClick={null}
+            onClick={() => this.submitSignUp()}
           >
             submit
           </button>

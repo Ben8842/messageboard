@@ -13,9 +13,78 @@ const path = require("path");
 const { getMaxListeners } = require("./models/user");
 const message = require("./models/message");
 const user = require("./models/user");
+const userprofile = require("./models/userprofile");
 
 app.use(express.json());
 //mongoose.set("useFindAndModify", false);
+
+app.post("/userprofiles", (req, res) => {
+  console.log("posting userprofiles now");
+  console.log(req.body.email);
+  const body = req.body;
+  const userProfileObject = new userprofile(body);
+  user.findOne(
+    {
+      email: req.body.email,
+    },
+    (error, data) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).send("Server Error during finding");
+      } else if (data == null) {
+        console.log("null!" + data);
+        userProfileObject.save(function (error) {
+          console.log("done.");
+          console.log(error);
+          if (error) {
+            console.log("issues here:" + error);
+            return res.status(500).send("Server Error while saving");
+          } else {
+            return res.status(201).send("user saved");
+          }
+          return;
+        });
+      } else if (data != null) {
+        console.log("not null!" + data);
+        console.log("duplicate !! (email)");
+        return res.status(400).send("duplicate email record");
+      }
+    }
+  );
+});
+
+app.post("/authenticate", (req, res) => {
+  console.log("posting");
+  console.log(req.body.email);
+  const body = req.body;
+  const userObject = new userprofile(body);
+  user.findOne(
+    {
+      email: req.body.email,
+    },
+    (error, data) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).send("Server Error during finding");
+      } else if (data == null) {
+        console.log("email does not exist" + data);
+        return res.status(400).send("user doesn't exist");
+      } else if (data != null) {
+        console.log("user found" + data);
+        if (req.body.password === data.password) {
+          data.set("password", null);
+
+          return res.status(200).json(data);
+        } else {
+          return res.status(400).send("password incorrect");
+        }
+      }
+    }
+  );
+});
+
+app.get("/userprofiles", (req, res) => {});
+
 app.post("/messages", (req, res) => {
   console.log("posting messages");
   const body = req.body;
