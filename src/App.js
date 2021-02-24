@@ -74,8 +74,66 @@ class MovieForm extends React.Component {
         //if (typeof data === "object") {
         else {
           console.log("new user saved!");
-          this.setState({ successfulSave: true });
+          this.setState({
+            successfulSave: true,
+            authStep: 5,
+            email: "",
+            password: "",
+          });
           //  this.closeModal();
+        }
+      });
+  }
+
+  submitLogIn() {
+    const { email, password } = this.state;
+    fetch("http://localhost:5000/authenticate", {
+      method: "POST", // *GET, POST, PUT, DELETE, etc.
+      mode: "cors", // no-cors, *cors, same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify({ email, password }),
+      // body data type must match "Content-Type" header
+    })
+      .then((res) => {
+        if (res.status === 400) {
+          return res.text();
+        }
+        if (res.status === 200) {
+          return res.json();
+        }
+      })
+      .then((data) => {
+        if (typeof data === "string") {
+          console.log(data);
+          console.log("message hello");
+          // this.props.createModalError(data);
+        }
+        if (typeof data === "object") {
+          localStorage.setItem("user", JSON.stringify(data));
+          console.log(data);
+          console.log("loggin in user");
+          // this.setState(data);
+          /*this.setState({
+            loggedin: true,
+            username: data.username,
+            data: data,
+          });*/
+
+          //redux step below (this.props.login(data))
+          //this.props.login(data);
+
+          this.setState({
+            loggedin: true,
+            email: data.email,
+            data: data,
+            authStep: 4,
+          });
         }
       });
   }
@@ -264,13 +322,27 @@ class MovieForm extends React.Component {
       <div class="authy">
         <form>
           Log in here ...
-          <input class="buttontools" value="email" />
-          <input class="buttontools" value="password" />
+          <input
+            class="buttontools"
+            name="email"
+            placeholder="EMAIL"
+            type="text"
+            value={this.state.email}
+            onChange={this.handleChangeX}
+          />
+          <input
+            class="buttontools"
+            name="password"
+            placeholder="PASSWORD"
+            type="text"
+            value={this.state.password}
+            onChange={this.handleChangeX}
+          />
           <button
             type="button"
             class="buttontools"
             name="submit"
-            onClick={null}
+            onClick={() => this.submitLogIn()}
           >
             submit
           </button>
@@ -312,8 +384,22 @@ class MovieForm extends React.Component {
 
     const authStepFour = (
       <div class="authy">
+        Welcome {this.state.email}.
         <button type="button" class="buttontools" name="submit" onClick={null}>
-          Currently logged in as XXX; Click here to Log out.
+          Log out.
+        </button>
+      </div>
+    );
+
+    const authStepFive = (
+      <div class="authy">
+        <button
+          type="button"
+          class="buttontools"
+          name="submit"
+          onClick={this.loginClick.bind(this)}
+        >
+          Thanks for signing up. Click here to Log in
         </button>
       </div>
     );
@@ -323,6 +409,8 @@ class MovieForm extends React.Component {
         {authStep == 0 ? authStepOne : null}
         {authStep == 2 ? authStepTwo : null}
         {authStep == 3 ? authStepThree : null}
+        {authStep == 4 ? authStepFour : null}
+        {authStep == 5 ? authStepFive : null}
         {verifyAuth ? authStepFour : null}
         <h1>Message Board</h1>
         {chars_left}

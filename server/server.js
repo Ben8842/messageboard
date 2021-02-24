@@ -55,10 +55,10 @@ app.post("/userprofiles", (req, res) => {
 
 app.post("/authenticate", (req, res) => {
   console.log("posting");
-  console.log(req.body.email);
+  console.log(req.body.password);
   const body = req.body;
   const userObject = new userprofile(body);
-  user.findOne(
+  userprofile.findOne(
     {
       email: req.body.email,
     },
@@ -73,9 +73,12 @@ app.post("/authenticate", (req, res) => {
         console.log("user found" + data);
         if (req.body.password === data.password) {
           data.set("password", null);
+          console.log("logging in");
 
           return res.status(200).json(data);
         } else {
+          console.log(data.password);
+          console.log(req.body.password);
           return res.status(400).send("password incorrect");
         }
       }
