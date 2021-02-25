@@ -282,6 +282,7 @@ class MovieForm extends React.Component {
         >
           log in
         </button>
+        &nbsp;&nbsp;
         <button
           class="buttontools"
           type="button"
@@ -390,30 +391,30 @@ class MovieForm extends React.Component {
         {authStep == 3 ? authStepThree : null}
         {authStep == 4 ? authStepFour : null}
         {authStep == 5 ? authStepFive : null}
-
-        <h1>Message Board</h1>
-
-        {chars_left}
-        <textarea
-          id="fancy"
-          autofocus="true"
-          maxlength="400"
-          rows="5"
-          cols="40"
-          type="text"
-          placeholder="enter a message for the Message Board"
-          name="messageContent"
-          onChange={this.handleChange}
-        />
+        <h1 id="titleM">Message Board</h1>
+        {chars_left}&nbsp;&nbsp;
+        <span id="textfancy">
+          <textarea
+            id="fancy"
+            autofocus="true"
+            maxlength="400"
+            rows="5"
+            cols="40"
+            type="text"
+            placeholder="enter a message for the Message Board"
+            name="messageContent"
+            onChange={this.handleChange}
+          />
+        </span>
+        &nbsp;&nbsp;
         <button
           type="button"
-          class="buttontools"
+          class="buttontoolsS"
           name="submit"
           onClick={this.handleSubmit}
         >
           submit
         </button>
-
         {superDBdisplay}
       </form>
     );
