@@ -1,14 +1,13 @@
-import logo from "./logo.svg";
 import "./App.css";
 import React from "react";
-import GoogleLogin from "react-google-login";
+//import GoogleLogin from "react-google-login";
 
 class MovieForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      movieName: "",
+      messageContent: "",
 
       showButtonIndex: 0,
       chars_left: 400,
@@ -26,7 +25,7 @@ class MovieForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.clickHandler();
-    this.getMovieList();
+    this.getList();
   }
 
   handleChangeX(event) {
@@ -143,8 +142,7 @@ class MovieForm extends React.Component {
     console.log(this.state.authStep);
   }
 
-  getMovieList() {
-    var { dbcontainer, newA, datePush, newADater } = this.state;
+  getList() {
     fetch("http://localhost:5000/messages", {
       method: "GET",
       mode: "cors",
@@ -197,14 +195,13 @@ class MovieForm extends React.Component {
 
   clickHandler = () => {
     console.log("component did mount woo hoo");
-    this.getMovieList();
+    this.getList();
     var { dbcontainer } = this.state;
     console.log(JSON.stringify({ dbcontainer }));
     console.log("helo clickHandler");
   };
 
   handleChange = (event) => {
-    const { movieName, method, overName } = this.state;
     let name = event.target.name;
     let value = event.target.value;
     console.log(name);
@@ -213,12 +210,11 @@ class MovieForm extends React.Component {
   };
 
   handleSubmit(event) {
-    //alert("submission incoming" + this.state.movieName);
     event.preventDefault();
     console.log("handleSubmit TIMEZ");
-    const { movieName, method, overName, email } = this.state;
+    const { messageContent, method, overName, email } = this.state;
     console.log(
-      "body is" + { movieName } + { method } + { overName } + { email }
+      "body is" + { messageContent } + { method } + { overName } + { email }
     );
 
     fetch("http://localhost:5000/messages", {
@@ -230,7 +226,7 @@ class MovieForm extends React.Component {
         "Content-Type": "application/json",
       },
       referrerPolicy: "no-referrer",
-      body: JSON.stringify({ text: movieName, emailtext: email }),
+      body: JSON.stringify({ text: messageContent, emailtext: email }),
     }).then((res) => {
       console.log("something happening here" + res);
     });
@@ -283,21 +279,7 @@ class MovieForm extends React.Component {
         ))}
       </div>
     );
-    /*
-    const unusedIdeas = (
-      <div>
-      <p>Enter the watching method. </p>
-        <input type="text" name="method" onChange={this.handleChange} />
-        <h3>The watching method is {this.state.method}</h3>
-        <input type="text" name="overName" onChange={this.handleChange} />
-        <h4>your Over Name is going to be {this.state.overName}</h4>
-        <button type="button" onClick={this.clickHandler}>
-          get this going
-        </button>
-         <h1> {this.state.movieName}</h1>
-      </div>
-    );
-*/
+
     const authStepOne = (
       <div class="authy">
         <button
@@ -422,7 +404,7 @@ class MovieForm extends React.Component {
           cols="40"
           type="text"
           placeholder="enter a message for the Message Board"
-          name="movieName"
+          name="messageContent"
           onChange={this.handleChange}
         />
         <button
