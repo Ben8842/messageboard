@@ -11,7 +11,7 @@ class MovieForm extends React.Component {
       showButtonIndex: 0,
       chars_left: 400,
       text: "",
-      authStep: 0,
+      authStep: 1,
       messageholder: [],
       email: "",
       password: "",
@@ -129,6 +129,10 @@ class MovieForm extends React.Component {
       });
   }
 
+  logOut() {
+    this.setState((state) => ({ authStep: 1, email: "" }));
+  }
+
   loginClick() {
     this.setState((state) => ({ authStep: 2 }));
   }
@@ -154,9 +158,10 @@ class MovieForm extends React.Component {
         return res.json();
       })
       .then((data) => {
+        console.log(data);
+        console.log("wild");
         this.setState({
           messageholder: data,
-          email: data.email,
         });
 
         console.log(data);
@@ -206,9 +211,7 @@ class MovieForm extends React.Component {
     event.preventDefault();
     console.log("handleSubmit TIMEZ");
     const { messageContent, method, overName, email } = this.state;
-    console.log(
-      "body is" + { messageContent } + { method } + { overName } + { email }
-    );
+    console.log("body is" + { messageContent } + { email });
 
     fetch("http://localhost:5000/messages", {
       method: "POST",
@@ -233,6 +236,7 @@ class MovieForm extends React.Component {
     // console.log("OK???");
     //  console.log("reallyOK???");
     const anonymoususer = <span>anonymous &nbsp;&nbsp;&nbsp;</span>;
+
     const superDBdisplay = (
       <div>
         <p>Messages are shown here below. </p>
@@ -243,6 +247,7 @@ class MovieForm extends React.Component {
                 {item.text}
                 <div>
                   <span id="timestamp">
+                    Author: &nbsp;
                     {item.emailtext == null ? anonymoususer : item.emailtext}
                   </span>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -354,7 +359,12 @@ class MovieForm extends React.Component {
     const authStepFour = (
       <div class="authy">
         Welcome {this.state.email}. &nbsp;&nbsp;&nbsp;
-        <button type="button" class="buttontools" name="submit" onClick={null}>
+        <button
+          type="button"
+          class="buttontools"
+          name="submit"
+          onClick={this.logOut.bind(this)}
+        >
           Log out.
         </button>
       </div>
@@ -375,7 +385,7 @@ class MovieForm extends React.Component {
 
     return (
       <form id="marginy">
-        {authStep == 0 ? authStepOne : null}
+        {authStep == 1 ? authStepOne : null}
         {authStep == 2 ? authStepTwo : null}
         {authStep == 3 ? authStepThree : null}
         {authStep == 4 ? authStepFour : null}
