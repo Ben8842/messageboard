@@ -5,6 +5,7 @@ const message = new schema(
   {
     text: String,
     vote: 0,
+    emailtext: String,
   },
   { timestamps: true }
 );

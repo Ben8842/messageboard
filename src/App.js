@@ -9,18 +9,14 @@ class MovieForm extends React.Component {
 
     this.state = {
       movieName: "",
-      count: 0,
-      method: "",
-      overName: "theName",
-      dbcontainer: [],
-      newA: [],
+
       showButtonIndex: 0,
       chars_left: 400,
       datePush: "",
-      newADater: [],
+
       text: "",
       authStep: 0,
-      verifyAuth: false,
+
       messageholder: [],
       email: "",
       password: "",
@@ -166,6 +162,7 @@ class MovieForm extends React.Component {
       .then((data) => {
         this.setState({
           messageholder: data,
+          email: data.email,
         });
 
         console.log(data);
@@ -174,13 +171,12 @@ class MovieForm extends React.Component {
   }
 
   clickRemover = (e) => {
-    var { dbcontainer, newA, showButtonIndex, newADater } = this.state;
+    // var { dbcontainer, newA, showButtonIndex, newADater } = this.state;
     this.setState({
       showButtonIndex: e.target.id,
     });
-    var holder = newA[e.target.id];
-    var timeholder = newADater[e.target.id];
-    console.log(JSON.stringify({ holder, showButtonIndex }));
+
+    // console.log(JSON.stringify({ showButtonIndex }));
     console.log("remove now!");
     fetch("http://localhost:5000/messages/" + e.target.id, {
       method: "DELETE",
@@ -191,7 +187,7 @@ class MovieForm extends React.Component {
         "Content-Type": "application/json",
       },
       referrerPolicy: "no-referrer",
-      body: JSON.stringify({ holder, showButtonIndex, timeholder }),
+      //   body: JSON.stringify({ showButtonIndex }),
     }).then((res) => {
       console.log("something happening here" + res);
     });
@@ -219,8 +215,11 @@ class MovieForm extends React.Component {
   handleSubmit(event) {
     //alert("submission incoming" + this.state.movieName);
     event.preventDefault();
-    const { movieName, method, overName } = this.state;
-    console.log("body is" + { movieName } + { method } + { overName });
+    console.log("handleSubmit TIMEZ");
+    const { movieName, method, overName, email } = this.state;
+    console.log(
+      "body is" + { movieName } + { method } + { overName } + { email }
+    );
 
     fetch("http://localhost:5000/messages", {
       method: "POST",
@@ -231,7 +230,7 @@ class MovieForm extends React.Component {
         "Content-Type": "application/json",
       },
       referrerPolicy: "no-referrer",
-      body: JSON.stringify({ text: movieName }),
+      body: JSON.stringify({ text: movieName, emailtext: email }),
     }).then((res) => {
       console.log("something happening here" + res);
     });
@@ -241,11 +240,11 @@ class MovieForm extends React.Component {
   render() {
     var {
       dbcontainer,
-      newA,
+
       chars_left,
-      newADater,
+
       authStep,
-      verifyAuth,
+
       messageholder,
     } = this.state;
     // console.log(dbcontainer[0]);
@@ -253,11 +252,11 @@ class MovieForm extends React.Component {
     console.log(this.state.passowrd);
 
     // console.log("OK???");
-    // console.log(newA);
+
     //  console.log("reallyOK???");
     const superDBdisplay = (
       <div>
-        <p>The Wall of Messages begins here!</p>
+        <p>Messages are shown here below. </p>
         {messageholder.map((item, index) => (
           <div>
             <div id="messagetime" key={index}>
@@ -321,7 +320,7 @@ class MovieForm extends React.Component {
     const authStepTwo = (
       <div class="authy">
         <form>
-          Log in here ...
+          Log in here &nbsp;&nbsp;&nbsp;
           <input
             class="buttontools"
             name="email"
@@ -353,7 +352,7 @@ class MovieForm extends React.Component {
     const authStepThree = (
       <div class="authy">
         <form>
-          Sign up here ...
+          Sign up here &nbsp;&nbsp;&nbsp;
           <input
             class="buttontools"
             name="email"
@@ -384,7 +383,7 @@ class MovieForm extends React.Component {
 
     const authStepFour = (
       <div class="authy">
-        Welcome {this.state.email}.
+        Welcome {this.state.email}. &nbsp;&nbsp;&nbsp;
         <button type="button" class="buttontools" name="submit" onClick={null}>
           Log out.
         </button>
@@ -411,8 +410,9 @@ class MovieForm extends React.Component {
         {authStep == 3 ? authStepThree : null}
         {authStep == 4 ? authStepFour : null}
         {authStep == 5 ? authStepFive : null}
-        {verifyAuth ? authStepFour : null}
+
         <h1>Message Board</h1>
+
         {chars_left}
         <textarea
           id="fancy"

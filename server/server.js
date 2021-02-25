@@ -93,6 +93,7 @@ app.post("/messages", (req, res) => {
   const body = req.body;
   const messageObject = new message(body);
   console.log(body);
+  console.log(body.emailtext);
   messageObject.save();
 });
 //example
@@ -140,7 +141,7 @@ app.get("/messages", (req, res) => {
       {},
 
       (error, data) => {
-        console.log(JSON.stringify(data) + "stringify");
+        // console.log(JSON.stringify(data) + "stringify");
         return res.json(data);
       }
     )
