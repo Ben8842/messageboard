@@ -31,9 +31,9 @@ class MovieForm extends React.Component {
   }
 
   submitSignUp() {
-    console.log("submit Sign Up now");
+    //. console.log("submit Sign Up now");
     const { email, password } = this.state;
-    console.log(JSON.stringify({ email, password }));
+    //  console.log(JSON.stringify({ email, password }));
     fetch("http://localhost:5000/userprofiles", {
       method: "POST",
       mode: "cors", // no-cors, *cors, same-origin
@@ -48,7 +48,7 @@ class MovieForm extends React.Component {
       // body data type must match "Content-Type" header
     })
       .then((res) => {
-        console.log("trigger");
+        //   console.log("trigger");
         if (res.status === 400) {
           return res.text();
         }
@@ -102,13 +102,13 @@ class MovieForm extends React.Component {
       .then((data) => {
         if (typeof data === "string") {
           console.log(data);
-          console.log("message hello");
+          //   console.log("message hello");
           // this.props.createModalError(data);
         }
         if (typeof data === "object") {
           localStorage.setItem("user", JSON.stringify(data));
           console.log(data);
-          console.log("loggin in user");
+          console.log("log in user");
           // this.setState(data);
           /*this.setState({
             loggedin: true,
@@ -139,7 +139,7 @@ class MovieForm extends React.Component {
 
   signupClick() {
     this.setState((state) => ({ authStep: 3 }));
-    console.log(this.state.authStep);
+    // console.log(this.state.authStep);
   }
 
   getList() {
@@ -154,18 +154,18 @@ class MovieForm extends React.Component {
       referrerPolicy: "no-referrer",
     })
       .then((res) => {
-        console.log(JSON.stringify(res) + ".thenres");
+        //    console.log(JSON.stringify(res) + ".thenres");
         return res.json();
       })
       .then((data) => {
         console.log(data);
-        console.log("wild");
+        //  console.log("wild");
         this.setState({
           messageholder: data,
         });
 
         console.log(data);
-        console.log("getData data data");
+        //  console.log("getData data data");
       });
   }
 
@@ -187,31 +187,31 @@ class MovieForm extends React.Component {
       referrerPolicy: "no-referrer",
       //   body: JSON.stringify({ showButtonIndex }),
     }).then((res) => {
-      console.log("something happening here" + res);
+      //    console.log("something happening here" + res);
     });
 
     this.clickHandler();
   };
 
   clickHandler = () => {
-    console.log("component did mount");
+    //  console.log("component did mount");
     this.getList();
-    console.log("helo clickHandler");
+    //   console.log("helo clickHandler");
   };
 
   handleChange = (event) => {
     let name = event.target.name;
     let value = event.target.value;
-    console.log(name);
-    console.log(value);
+    //  console.log(name);
+    //  console.log(value);
     this.setState({ [name]: value, chars_left: 400 - value.length });
   };
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log("handleSubmit TIMEZ");
-    const { messageContent, method, overName, email } = this.state;
-    console.log("body is" + { messageContent } + { email });
+    //  console.log("handleSubmit TIMEZ");
+    const { messageContent, email } = this.state;
+    //  console.log("body is" + { messageContent } + { email });
 
     fetch("http://localhost:5000/messages", {
       method: "POST",
@@ -224,15 +224,15 @@ class MovieForm extends React.Component {
       referrerPolicy: "no-referrer",
       body: JSON.stringify({ text: messageContent, emailtext: email }),
     }).then((res) => {
-      console.log("something happening here" + res);
+      //   console.log("something happening here" + res);
     });
     this.clickHandler();
   }
 
   render() {
     var { chars_left, authStep, messageholder } = this.state;
-    console.log(this.state.email);
-    console.log(this.state.passowrd);
+    //  console.log(this.state.email);
+    //  console.log(this.state.passowrd);
     // console.log("OK???");
     //  console.log("reallyOK???");
     const anonymoususer = <span>anonymous &nbsp;&nbsp;&nbsp;</span>;
@@ -248,7 +248,7 @@ class MovieForm extends React.Component {
                 <div>
                   <span id="timestamp">
                     Author: &nbsp;
-                    {item.emailtext == null ? anonymoususer : item.emailtext}
+                    {item.emailtext == "" ? anonymoususer : item.emailtext}
                   </span>
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <span id="timestamp">Timestamp: {item.createdAt}</span>
