@@ -246,25 +246,31 @@ class MessageForm extends React.Component {
               <span key={index}>
                 {item.text}
                 <div>
-                  <span id="timestamp">
-                    Author: &nbsp;
-                    {item.emailtext == "" ? anonymoususer : item.emailtext}
-                  </span>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <span id="timestamp">Timestamp: {item.createdAt}</span>
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <button
-                    type="button"
-                    id={item._id}
-                    key={index}
-                    class="buttontools"
-                    onClick={(e) => this.clickRemover(e)}
-                  >
-                    delete
-                  </button>
-                  &nbsp;&nbsp;
-                  <button class="buttontools">upvote</button>&nbsp;&nbsp;
-                  <button class="buttontools">downvote</button>&nbsp;&nbsp;
+                  <div id="timestamp">
+                    <span id="timestamp">
+                      Author: &nbsp;
+                      {item.emailtext == "" ? anonymoususer : item.emailtext}
+                    </span>
+                  </div>
+
+                  <div id="timestamp">
+                    <span id="timestamp">Timestamp: {item.createdAt}</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  </div>
+                  <div id="uptime">
+                    <button
+                      type="button"
+                      id={item._id}
+                      key={index}
+                      class="buttontools"
+                      onClick={(e) => this.clickRemover(e)}
+                    >
+                      delete
+                    </button>
+                    &nbsp;&nbsp;
+                    <button class="buttontools">upvote</button>&nbsp;&nbsp;
+                    <button class="buttontools">downvote</button>&nbsp;&nbsp;
+                  </div>
                 </div>
               </span>
             </div>
