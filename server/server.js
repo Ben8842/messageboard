@@ -10,9 +10,9 @@ app.use(cors(corsOptions));
 
 const path = require("path");
 
-const { getMaxListeners } = require("./models/user");
+//const { getMaxListeners } = require("./models/user");
 const message = require("./models/message");
-const user = require("./models/user");
+//const user = require("./models/user");
 const userprofile = require("./models/userprofile");
 
 app.use(express.json());
@@ -23,7 +23,7 @@ app.post("/userprofiles", (req, res) => {
   console.log(req.body.email);
   const body = req.body;
   const userProfileObject = new userprofile(body);
-  user.findOne(
+  userprofile.findOne(
     {
       email: req.body.email,
     },
@@ -92,14 +92,14 @@ app.post("/messages", (req, res) => {
   console.log("posting messages");
   const body = req.body;
   const messageObject = new message(body);
-  console.log(body);
+  console.log(req.body);
   console.log(body.emailtext);
   messageObject.save();
 });
 //example
 //below here app.post("/users" is associated with the name of your db collection
 //the db name is associated with the uri in the db.js file
-app.post("/users", (req, res) => {
+/*app.post("/users", (req, res) => {
   console.log("posting");
   console.log(req.body);
   const body = req.body;
@@ -131,7 +131,7 @@ app.post("/users", (req, res) => {
       }
     );
   }
-});
+});*/
 
 app.get("/messages", (req, res) => {
   console.log("GETTING MESSAGE");
@@ -161,7 +161,7 @@ app.delete("/messages/:id", (req, res) => {
   // message.deleteOne({ _id: "ObjectId(" + req.params.id + ")" });
   res.send("delete message here");
 });
-
+/*
 app.get("/users", (req, res) => {
   console.log("GETTING");
   console.log(req.body);
@@ -177,7 +177,7 @@ app.get("/users", (req, res) => {
     }
   );
 });
-
+*/
 //end of example
 
 const buildPath = path.join(__dirname, "..", "build");

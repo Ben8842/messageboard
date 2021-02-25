@@ -8,14 +8,10 @@ class MovieForm extends React.Component {
 
     this.state = {
       messageContent: "",
-
       showButtonIndex: 0,
       chars_left: 400,
-      datePush: "",
-
       text: "",
       authStep: 0,
-
       messageholder: [],
       email: "",
       password: "",
@@ -169,7 +165,6 @@ class MovieForm extends React.Component {
   }
 
   clickRemover = (e) => {
-    // var { dbcontainer, newA, showButtonIndex, newADater } = this.state;
     this.setState({
       showButtonIndex: e.target.id,
     });
@@ -194,10 +189,8 @@ class MovieForm extends React.Component {
   };
 
   clickHandler = () => {
-    console.log("component did mount woo hoo");
+    console.log("component did mount");
     this.getList();
-    var { dbcontainer } = this.state;
-    console.log(JSON.stringify({ dbcontainer }));
     console.log("helo clickHandler");
   };
 
@@ -234,22 +227,12 @@ class MovieForm extends React.Component {
   }
 
   render() {
-    var {
-      dbcontainer,
-
-      chars_left,
-
-      authStep,
-
-      messageholder,
-    } = this.state;
-    // console.log(dbcontainer[0]);
+    var { chars_left, authStep, messageholder } = this.state;
     console.log(this.state.email);
     console.log(this.state.passowrd);
-
     // console.log("OK???");
-
     //  console.log("reallyOK???");
+    const anonymoususer = <span>anonymous &nbsp;&nbsp;&nbsp;</span>;
     const superDBdisplay = (
       <div>
         <p>Messages are shown here below. </p>
@@ -259,8 +242,12 @@ class MovieForm extends React.Component {
               <span key={index}>
                 {item.text}
                 <div>
+                  <span id="timestamp">
+                    {item.emailtext == null ? anonymoususer : item.emailtext}
+                  </span>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <span id="timestamp">Timestamp: {item.createdAt}</span>
-
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <button
                     type="button"
                     id={item._id}
@@ -270,8 +257,9 @@ class MovieForm extends React.Component {
                   >
                     delete
                   </button>
-                  <button class="buttontools">upvote</button>
-                  <button class="buttontools">downvote</button>
+                  &nbsp;&nbsp;
+                  <button class="buttontools">upvote</button>&nbsp;&nbsp;
+                  <button class="buttontools">downvote</button>&nbsp;&nbsp;
                 </div>
               </span>
             </div>
