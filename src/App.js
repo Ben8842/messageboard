@@ -2,7 +2,7 @@ import "./App.css";
 import React from "react";
 //import GoogleLogin from "react-google-login";
 
-class MovieForm extends React.Component {
+class MessageForm extends React.Component {
   constructor(props) {
     super(props);
 
@@ -425,7 +425,7 @@ function App() {
   return (
     <div>
       <div id="marginy">
-        <MovieForm />
+        <MessageForm />
       </div>
     </div>
   );
