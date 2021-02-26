@@ -18,6 +18,7 @@ const userprofile = require("./models/userprofile");
 app.use(express.json());
 //mongoose.set("useFindAndModify", false);
 
+//sign up and save new user to db
 app.post("/userprofiles", (req, res) => {
   console.log("posting userprofiles now");
   console.log(req.body.email);
@@ -52,7 +53,7 @@ app.post("/userprofiles", (req, res) => {
     }
   );
 });
-
+//Log in authentication
 app.post("/authenticate", (req, res) => {
   console.log("posting");
   console.log(req.body.password);
@@ -86,8 +87,7 @@ app.post("/authenticate", (req, res) => {
   );
 });
 
-app.get("/userprofiles", (req, res) => {});
-
+//save a message to the message collection
 app.post("/messages", (req, res) => {
   console.log("posting messages");
   const body = req.body;
@@ -96,43 +96,8 @@ app.post("/messages", (req, res) => {
   console.log(body.emailtext);
   messageObject.save();
 });
-//example
-//below here app.post("/users" is associated with the name of your db collection
-//the db name is associated with the uri in the db.js file
-/*app.post("/users", (req, res) => {
-  console.log("posting");
-  console.log(req.body);
-  const body = req.body;
-  const userObject = new user(body);
-  if (body.overName == "theName") {
-    user.findOneAndUpdate(
-      { name: "theName" },
-      {
-        $push: { movieNames: req.body.movieName },
-      },
 
-      (error, data) => {
-        console.log(req.body.movieName);
-        console.log(error + "hi");
-        return res.json();
-      }
-    );
-  } else {
-    user.findOneAndUpdate(
-      { name: "theName" },
-      {
-        $pull: { movieNames: body.holder },
-      },
-
-      (error, data) => {
-        console.log(req.body.movieName);
-        console.log(error + "hi");
-        return res.json();
-      }
-    );
-  }
-});*/
-
+//Pull the existing messages from the message collection so they can be displayed, sort by timestamp
 app.get("/messages", (req, res) => {
   console.log("GETTING MESSAGE");
 
@@ -148,6 +113,7 @@ app.get("/messages", (req, res) => {
     .sort("-createdAt");
 });
 
+//Delete a specific message using id
 app.delete("/messages/:id", (req, res) => {
   console.log("we are deleting", req.params);
   // message.findOneAndDelete({ _id: req.params.id });
@@ -161,24 +127,34 @@ app.delete("/messages/:id", (req, res) => {
   // message.deleteOne({ _id: "ObjectId(" + req.params.id + ")" });
   res.send("delete message here");
 });
-/*
-app.get("/users", (req, res) => {
-  console.log("GETTING");
-  console.log(req.body);
+
+//add user vote to upvote array
+app.patch("/messages/:id", (req, res) => {
+  console.log("we are voting up", req.params);
+  console.log("value is", req.body);
   const body = req.body;
-  const userObject = new user(body);
-
-  user.find(
-    { name: "theName" },
-
-    (error, data) => {
-      console.log(JSON.stringify(data) + "stringify");
-      return res.json(data);
+  // message.findOneAndDelete({ _id: req.params.id });
+  message.findByIdAndUpdate(
+    req.params.id,
+    { $push: { positiveVote: body.email } },
+    function (error) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("voting up is a success");
+      }
     }
   );
+  // message.deleteOne({ _id: "ObjectId(" + req.params.id + ")" });
+  res.send("voting so good");
 });
+
+/*
+//add user vote to downvote array
+app.downvote("/messages/:id", (req, res) => {});
 */
-//end of example
+//not used
+app.get("/userprofiles", (req, res) => {});
 
 const buildPath = path.join(__dirname, "..", "build");
 app.use(express.static(buildPath));

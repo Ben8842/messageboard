@@ -30,6 +30,41 @@ class MessageForm extends React.Component {
     });
   }
 
+  upVote = (e) => {
+    const { email } = this.state;
+    console.log(this.state.emailtext);
+    this.setState({
+      showButtonIndex: e.target.id,
+    });
+
+    // console.log(JSON.stringify({ showButtonIndex }));
+    console.log("upvote now");
+    fetch("http://localhost:5000/messages/" + e.target.id, {
+      method: "PATCH",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({ email }),
+      //   body: JSON.stringify({ showButtonIndex }),
+    }).then((res) => {
+      console.log(res);
+      //    console.log("something happening here" + res);
+    });
+
+    console.log("hello upvote");
+    //this.clickHandler();
+  };
+
+  clickHandler = () => {
+    //  console.log("component did mount");
+    this.getList();
+    //   console.log("helo clickHandler");
+  };
+
   submitSignUp() {
     //. console.log("submit Sign Up now");
     const { email, password } = this.state;
@@ -268,7 +303,15 @@ class MessageForm extends React.Component {
                       delete
                     </button>
                     &nbsp;&nbsp;
-                    <button class="buttontools">upvote</button>&nbsp;&nbsp;
+                    <button
+                      class="buttontools"
+                      id={item._id}
+                      key={index}
+                      onClick={(e) => this.upVote(e)}
+                    >
+                      upvote
+                    </button>
+                    &nbsp;&nbsp;
                     <button class="buttontools">downvote</button>&nbsp;&nbsp;
                   </div>
                 </div>
