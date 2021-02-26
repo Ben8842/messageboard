@@ -1,5 +1,8 @@
 import "./App.css";
 import React from "react";
+import { connect } from "react-redux";
+import { login } from "./actions/userActions.js";
+import { logout } from "./actions/userActions.js";
 //import GoogleLogin from "react-google-login";
 
 class MessageForm extends React.Component {
@@ -15,6 +18,7 @@ class MessageForm extends React.Component {
       messageholder: [],
       email: "",
       password: "",
+      login: false,
     };
 
     this.handleChangeX = this.handleChangeX.bind(this);
@@ -22,6 +26,17 @@ class MessageForm extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.clickHandler();
     this.getList();
+  }
+
+  componentDidMount() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
+    //let loggedin = typeof user === "object";
+
+    if (user !== null) {
+      this.props.login(user.data);
+      this.setState({ authStep: 4 });
+    }
   }
 
   handleChangeX(event) {
@@ -33,9 +48,9 @@ class MessageForm extends React.Component {
   upVote = (e) => {
     const { email } = this.state;
     console.log(this.state.emailtext);
-    this.setState({
+    /*this.setState({
       showButtonIndex: e.target.id,
-    });
+    });*/
 
     // console.log(JSON.stringify({ showButtonIndex }));
     console.log("upvote now");
@@ -160,12 +175,17 @@ class MessageForm extends React.Component {
             data: data,
             authStep: 4,
           });
+          this.props.login(data);
+          console.log("login REDUX");
+          console.log(data);
         }
       });
   }
 
   logOut() {
     this.setState((state) => ({ authStep: 1, email: "" }));
+    this.props.logout();
+    console.log("redux logout");
   }
 
   loginClick() {
@@ -245,7 +265,7 @@ class MessageForm extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     //  console.log("handleSubmit TIMEZ");
-    const { messageContent, email } = this.state;
+    const { messageContent } = this.state;
     //  console.log("body is" + { messageContent } + { email });
 
     fetch("http://localhost:5000/messages", {
@@ -257,7 +277,10 @@ class MessageForm extends React.Component {
         "Content-Type": "application/json",
       },
       referrerPolicy: "no-referrer",
-      body: JSON.stringify({ text: messageContent, emailtext: email }),
+      body: JSON.stringify({
+        text: messageContent,
+        emailtext: this.props.user.emailR,
+      }),
     }).then((res) => {
       //   console.log("something happening here" + res);
     });
@@ -304,6 +327,7 @@ class MessageForm extends React.Component {
                     </button>
                     &nbsp;&nbsp;
                     <button
+                      type="button"
                       class="buttontools"
                       id={item._id}
                       key={index}
@@ -408,7 +432,7 @@ class MessageForm extends React.Component {
 
     const authStepFour = (
       <div class="authy">
-        Welcome {this.state.email}. &nbsp;&nbsp;&nbsp;
+        Welcome {this.props.user.emailR}. &nbsp;&nbsp;&nbsp;
         <button
           type="button"
           class="buttontools"
@@ -435,10 +459,10 @@ class MessageForm extends React.Component {
 
     return (
       <form id="marginy">
+        {this.props.user.isLoggedIn ? authStepFour : null}
         {authStep == 1 ? authStepOne : null}
         {authStep == 2 ? authStepTwo : null}
         {authStep == 3 ? authStepThree : null}
-        {authStep == 4 ? authStepFour : null}
         {authStep == 5 ? authStepFive : null}
         <h1 id="titleM">Message Board</h1>
         {chars_left}&nbsp;&nbsp;
@@ -480,4 +504,10 @@ function App() {
   );
 }
 
-export default App;
+//export default App;
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
+
+export default connect(mapStateToProps, { login, logout })(MessageForm);
