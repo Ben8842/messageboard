@@ -2,8 +2,14 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+
+const production = process.env.production;
+const origin = production
+  ? "https://cranky-ride-55b732.netlify.app/"
+  : "http://localhost:3000";
+
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: origin,
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
