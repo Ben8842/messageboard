@@ -163,7 +163,7 @@ app.downvote("/messages/:id", (req, res) => {});
 app.get("/userprofiles", (req, res) => {});
 
 const buildPath = path.join(__dirname, "..", "build");
-app.use(express.static(buildPath));
+//app.use(express.static(buildPath));
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "build", "index.html"));
 });
