@@ -71,6 +71,7 @@ class MessageForm extends React.Component {
     });
     console.log("hello upvote");
     //this.clickHandler();
+    this.getList();
   };
 
   downVote = (e) => {
@@ -100,6 +101,7 @@ class MessageForm extends React.Component {
 
     console.log("hello downvote");
     //this.clickHandler();
+    this.getList();
   };
 
   clickHandler = () => {
