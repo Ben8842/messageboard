@@ -334,7 +334,17 @@ class MessageForm extends React.Component {
                       onClick={(e) => this.upVote(e)}
                     >
                       upvote
-                    </button>
+                    </button>{" "}
+                    <span id="buttontools">
+                      {item.positiveVote.length - item.negativeVote.length > 0
+                        ? "+" +
+                          (item.positiveVote.length - item.negativeVote.length)
+                        : item.positiveVote.length - item.negativeVote.length ==
+                          0
+                        ? item.positiveVote.length - item.negativeVote.length
+                        : "-" +
+                          (item.positiveVote.length - item.negativeVote.length)}
+                    </span>
                     &nbsp;&nbsp;
                     <button class="buttontools">downvote</button>&nbsp;&nbsp;
                   </div>
