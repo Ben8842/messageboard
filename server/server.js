@@ -25,7 +25,7 @@ app.use(express.json());
 //mongoose.set("useFindAndModify", false);
 
 //sign up and save new user to db
-app.post("/userprofiles", (req, res) => {
+app.post("http://localhost:5000/userprofiles", (req, res) => {
   console.log("posting userprofiles now");
   console.log(req.body.email);
   const body = req.body;
@@ -60,7 +60,7 @@ app.post("/userprofiles", (req, res) => {
   );
 });
 //Log in authentication
-app.post("/authenticate", (req, res) => {
+app.post("http://localhost:5000/authenticate", (req, res) => {
   console.log("posting");
   console.log(req.body.password);
   const body = req.body;
@@ -94,7 +94,7 @@ app.post("/authenticate", (req, res) => {
 });
 
 //save a message to the message collection
-app.post("/messages", (req, res) => {
+app.post("http://localhost:5000/messages", (req, res) => {
   console.log("posting messages");
   const body = req.body;
   const messageObject = new message(body);
@@ -104,7 +104,7 @@ app.post("/messages", (req, res) => {
 });
 
 //Pull the existing messages from the message collection so they can be displayed, sort by timestamp
-app.get("/messages", (req, res) => {
+app.get("http://localhost:5000/messages", (req, res) => {
   console.log("GETTING MESSAGE");
 
   message
@@ -120,7 +120,7 @@ app.get("/messages", (req, res) => {
 });
 
 //Delete a specific message using id
-app.delete("/messages/:id", (req, res) => {
+app.delete("http://localhost:5000/messages/:id", (req, res) => {
   console.log("we are deleting", req.params);
   // message.findOneAndDelete({ _id: req.params.id });
   message.findByIdAndDelete(req.params.id, function (error) {
@@ -135,7 +135,7 @@ app.delete("/messages/:id", (req, res) => {
 });
 
 //add user vote to upvote array
-app.patch("/messages/:id", (req, res) => {
+app.patch("http://localhost:5000/messages/:id", (req, res) => {
   console.log("we are voting up", req.params);
   console.log("value is", req.body);
   const body = req.body;
@@ -160,7 +160,7 @@ app.patch("/messages/:id", (req, res) => {
 app.downvote("/messages/:id", (req, res) => {});
 */
 //not used
-app.get("/userprofiles", (req, res) => {});
+app.get("http://localhost:5000/userprofiles", (req, res) => {});
 
 const buildPath = path.join(__dirname, "..", "build");
 //app.use(express.static(buildPath));
