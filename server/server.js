@@ -8,6 +8,7 @@ const origin = production
   ? "https://cranky-ride-55b732.netlify.app/"
   : "http://localhost:3000";
 
+//did not work locally unless I switched origin: origin below to origin: http...etc
 const corsOptions = {
   origin: "http://localhost:3000",
   optionsSuccessStatus: 200,

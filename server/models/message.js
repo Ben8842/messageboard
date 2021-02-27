@@ -4,10 +4,16 @@ const schema = mongoose.Schema;
 const message = new schema(
   {
     text: String,
-    vote: 0,
     emailtext: String,
     positiveVote: [String],
     negativeVote: [String],
+    vote: {
+      value: Number,
+      get: (a) => {
+        let votenumber = this.positiveVote.length - this.negativeVote.length;
+        return votenumber;
+      },
+    },
   },
   { timestamps: true }
 );
