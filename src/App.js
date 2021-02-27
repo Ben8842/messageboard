@@ -54,7 +54,7 @@ class MessageForm extends React.Component {
 
     // console.log(JSON.stringify({ showButtonIndex }));
     console.log("upvote now");
-    fetch("/messages/" + e.target.id, {
+    fetch("http://localhost:5000/messages/" + e.target.id, {
       method: "PATCH",
       mode: "cors",
       cache: "no-cache",
@@ -84,7 +84,7 @@ class MessageForm extends React.Component {
     //. console.log("submit Sign Up now");
     const { email, password } = this.state;
     //  console.log(JSON.stringify({ email, password }));
-    fetch("/userprofiles", {
+    fetch("http://localhost:5000/userprofiles", {
       method: "POST",
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -128,7 +128,7 @@ class MessageForm extends React.Component {
 
   submitLogIn() {
     const { email, password } = this.state;
-    fetch("/authenticate", {
+    fetch("http://localhost:5000/authenticate", {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -198,7 +198,7 @@ class MessageForm extends React.Component {
   }
 
   getList() {
-    fetch("/messages", {
+    fetch("http://localhost:5000/messages", {
       method: "GET",
       mode: "cors",
       cache: "no-cache",
@@ -231,7 +231,7 @@ class MessageForm extends React.Component {
 
     // console.log(JSON.stringify({ showButtonIndex }));
     console.log("remove now!");
-    fetch("/messages/" + e.target.id, {
+    fetch("http://localhost:5000/messages/" + e.target.id, {
       method: "DELETE",
       mode: "cors",
       cache: "no-cache",
@@ -268,7 +268,7 @@ class MessageForm extends React.Component {
     const { messageContent } = this.state;
     //  console.log("body is" + { messageContent } + { email });
 
-    fetch("/messages", {
+    fetch("http://localhost:5000/messages", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
