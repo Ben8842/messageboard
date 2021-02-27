@@ -69,8 +69,36 @@ class MessageForm extends React.Component {
       console.log(res);
       //    console.log("something happening here" + res);
     });
-
     console.log("hello upvote");
+    //this.clickHandler();
+  };
+
+  downVote = (e) => {
+    const { email } = this.state;
+    console.log(this.state.emailtext);
+    /*this.setState({
+      showButtonIndex: e.target.id,
+    });*/
+
+    // console.log(JSON.stringify({ showButtonIndex }));
+    console.log("downvote now");
+    fetch("http://localhost:5000/messages/" + e.target.id, {
+      method: "PUT",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify({ email }),
+      //   body: JSON.stringify({ showButtonIndex }),
+    }).then((res) => {
+      console.log(res);
+      //    console.log("something happening here" + res);
+    });
+
+    console.log("hello downvote");
     //this.clickHandler();
   };
 
@@ -339,14 +367,19 @@ class MessageForm extends React.Component {
                       {item.positiveVote.length - item.negativeVote.length > 0
                         ? "+" +
                           (item.positiveVote.length - item.negativeVote.length)
-                        : item.positiveVote.length - item.negativeVote.length ==
-                          0
-                        ? item.positiveVote.length - item.negativeVote.length
-                        : "-" +
-                          (item.positiveVote.length - item.negativeVote.length)}
+                        : item.positiveVote.length - item.negativeVote.length}
                     </span>
                     &nbsp;&nbsp;
-                    <button class="buttontools">downvote</button>&nbsp;&nbsp;
+                    <button
+                      type="button"
+                      class="buttontools"
+                      id={item._id}
+                      key={index}
+                      onClick={(e) => this.downVote(e)}
+                    >
+                      downvote
+                    </button>
+                    &nbsp;&nbsp;
                   </div>
                 </div>
               </span>

@@ -156,6 +156,26 @@ app.patch("/messages/:id", (req, res) => {
   res.send("voting so good");
 });
 
+app.put("/messages/:id", (req, res) => {
+  console.log("we are voting down", req.params);
+  console.log("value is", req.body);
+  const body = req.body;
+  // message.findOneAndDelete({ _id: req.params.id });
+  message.findByIdAndUpdate(
+    req.params.id,
+    { $push: { negativeVote: body.email } },
+    function (error) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("voting down is a success");
+      }
+    }
+  );
+  // message.deleteOne({ _id: "ObjectId(" + req.params.id + ")" });
+  res.send("voting so good");
+});
+
 /*
 //add user vote to downvote array
 app.downvote("/messages/:id", (req, res) => {});
