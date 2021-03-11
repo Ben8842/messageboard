@@ -21,6 +21,8 @@ class MessageForm extends React.Component {
       password: "",
       login: false,
       topics: [
+        "",
+        "general",
         "finance",
         "technology",
         "politics",
@@ -330,16 +332,28 @@ class MessageForm extends React.Component {
   }
 
   render() {
-    var { chars_left, authStep, messageholder } = this.state;
+    var { chars_left, authStep, messageholder, topics } = this.state;
     //  console.log(this.state.email);
     //  console.log(this.state.passowrd);
     // console.log("OK???");
     //  console.log("reallyOK???");
     const anonymoususer = <span>anonymous &nbsp;&nbsp;&nbsp;</span>;
 
+    const filterDisplay = (
+      <div>
+        FILTER
+        <div>
+          <button>VOTES</button>
+          <button>TOPIC</button>
+          <button>RECENT</button>
+        </div>
+      </div>
+    );
+
     const superDBdisplay = (
       <div>
         <p>Messages are shown here below. </p>
+        {filterDisplay}
         {messageholder.map((item, index) => (
           <div>
             <div id="messagetime" key={index}>
@@ -358,6 +372,14 @@ class MessageForm extends React.Component {
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   </div>
                   <div id="uptime">
+                    <label id="droppyL" for="topics">
+                      topic:
+                    </label>
+                    <select name="topics" id="topics">
+                      {topics.map((item, index) => (
+                        <option value={item}>{item}</option>
+                      ))}
+                    </select>
                     <button
                       type="button"
                       id={item._id}
@@ -545,6 +567,14 @@ class MessageForm extends React.Component {
         >
           submit
         </button>
+        <label id="droppyL" for="topics">
+          topic:
+        </label>
+        <select name="topics" id="topics">
+          {topics.map((item, index) => (
+            <option value={item}>{item}</option>
+          ))}
+        </select>
         {superDBdisplay}
       </form>
     );
