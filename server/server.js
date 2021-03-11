@@ -21,6 +21,7 @@ const path = require("path");
 const message = require("./models/message");
 //const user = require("./models/user");
 const userprofile = require("./models/userprofile");
+const { findById } = require("./models/message");
 
 app.use(express.json());
 //mongoose.set("useFindAndModify", false);
@@ -141,17 +142,21 @@ app.patch("/messages/:id", (req, res) => {
   console.log("value is", req.body);
   const body = req.body;
   // message.findOneAndDelete({ _id: req.params.id });
-  message.findByIdAndUpdate(
-    req.params.id,
-    { $push: { positiveVote: body.email } },
-    function (error) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("voting up is a success");
-      }
+  message.findById(req.params.id).then((messageItem) => {
+    if (!messageItem.positiveVote.includes(body.email)) {
+      message.findByIdAndUpdate(
+        req.params.id,
+        { $push: { positiveVote: body.email } },
+        function (error) {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log("voting up is a success");
+          }
+        }
+      );
     }
-  );
+  });
   // message.deleteOne({ _id: "ObjectId(" + req.params.id + ")" });
   res.send("voting so good");
 });
@@ -161,17 +166,22 @@ app.put("/messages/:id", (req, res) => {
   console.log("value is", req.body);
   const body = req.body;
   // message.findOneAndDelete({ _id: req.params.id });
-  message.findByIdAndUpdate(
-    req.params.id,
-    { $push: { negativeVote: body.email } },
-    function (error) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("voting down is a success");
-      }
+  message.findById(req.params.id).then((messageItem) => {
+    if (!messageItem.negativeVote.includes(body.email)) {
+      message.findByIdAndUpdate(
+        req.params.id,
+        { $push: { negativeVote: body.email } },
+        function (error) {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log("voting down is a success");
+          }
+        }
+      );
     }
-  );
+  });
+
   // message.deleteOne({ _id: "ObjectId(" + req.params.id + ")" });
   res.send("voting so good");
 });

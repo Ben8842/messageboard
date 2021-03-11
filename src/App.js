@@ -3,6 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { login } from "./actions/userActions.js";
 import { logout } from "./actions/userActions.js";
+import News from "./components/News";
 //import GoogleLogin from "react-google-login";
 
 class MessageForm extends React.Component {
@@ -19,6 +20,17 @@ class MessageForm extends React.Component {
       email: "",
       password: "",
       login: false,
+      topics: [
+        "finance",
+        "technology",
+        "politics",
+        "sports",
+        "movies",
+        "music",
+        "art",
+        "games",
+        "math",
+      ],
     };
 
     this.handleChangeX = this.handleChangeX.bind(this);
@@ -67,11 +79,11 @@ class MessageForm extends React.Component {
       //   body: JSON.stringify({ showButtonIndex }),
     }).then((res) => {
       console.log(res);
+      this.getList();
       //    console.log("something happening here" + res);
     });
     console.log("hello upvote");
     //this.clickHandler();
-    this.getList();
   };
 
   downVote = (e) => {
@@ -96,12 +108,12 @@ class MessageForm extends React.Component {
       //   body: JSON.stringify({ showButtonIndex }),
     }).then((res) => {
       console.log(res);
+      this.getList();
       //    console.log("something happening here" + res);
     });
 
     console.log("hello downvote");
     //this.clickHandler();
-    this.getList();
   };
 
   clickHandler = () => {
