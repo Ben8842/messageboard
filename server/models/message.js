@@ -8,6 +8,7 @@ const message = new schema(
     emailtext: String,
     positiveVote: [String],
     negativeVote: [String],
+    topic: String,
   },
   { timestamps: true }
 );

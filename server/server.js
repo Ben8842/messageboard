@@ -120,6 +120,21 @@ app.get("/messages", (req, res) => {
     )
     .sort("-createdAt");
 });
+/*
+app.get("/messages", (req, res) => {
+  console.log("sort VOTE");
+
+  message
+    .find(
+      {},
+
+      (error, data) => {
+        // console.log(JSON.stringify(data) + "stringify");
+        return res.json(data);
+      }
+    )
+    .sort(message.positiveVote.length - message.negativeVote.length);
+});*/
 
 //Delete a specific message using id
 app.delete("/messages/:id", (req, res) => {
@@ -185,6 +200,9 @@ app.put("/messages/:id", (req, res) => {
   // message.deleteOne({ _id: "ObjectId(" + req.params.id + ")" });
   res.send("voting so good");
 });
+
+
+
 
 /*
 //add user vote to downvote array
